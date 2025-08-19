@@ -1,14 +1,375 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <base href="/" />
-    <title>SRC</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- bootstrap css -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <app>Loading...</app>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Business Services</title>
+        <style>
+            /* General Styles */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Arial', sans-serif;
+            }
+
+            body {
+                background-color: #f8f4e9;
+                color: #333;
+            }
+
+            /* Navbar Styles */
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 5%;
+                background-color: #f8f4e9;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .navbar.hidden {
+                transform: translateY(-100%);
+            }
+
+            .logo {
+                font-size: 24px;
+                font-weight: bold;
+                color: #5d4037;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 30px;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: #757575;
+                font-size: 16px;
+                transition: color 0.3s ease;
+            }
+
+            .nav-links a:hover {
+                color: #5d4037;
+            }
+
+            /* Landing Section */
+            .landing {
+                position: relative;
+                width: 100%;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .landing-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: -1;
+            }
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #961142ff;
+                opacity: 0.5;
+                mix-blend-mode: darken;
+                transition: opacity 0.3s ease;
+            }
+            .landing-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                color: white;
+                width: 100%;
+                padding: 0 20px;
+                text-shadow: -2px 2px gray;
+            }
+
+            .landing-line1 {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+
+            .landing-line2 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+
+            .landing-line3 {
+                font-size: 16px;
+                font-style: italic;
+            }
+
+            /* Bookkeeping Section */
+            .bookkeeping {
+                display: flex;
+                padding: 80px 10%;
+                background-color: white;
+                gap: 10vw;
+            }
+
+            .bookkeeping-left {
+                flex: 1;
+                position: relative;
+            }
+
+            .bookkeeping-title {
+                font-size: 48px;
+                color: #e91e63;
+                position: absolute;
+                top: -30px;
+                right: -50px;
+                z-index: 4;
+            }
+
+            .bookkeeping-img-large {
+                width: 100%;
+                height: 90vh;
+                object-fit: cover;
+                position: relative;
+            }
+
+            .bookkeeping-img-small {
+                width: 100%;
+                height: 30vh;
+                object-fit: cover;
+                position: absolute;
+                bottom: -50px;
+                right: -50px;
+                z-index: 3;
+                border: 5px solid white;
+            }
+
+            .bookkeeping-right {
+                flex: 1;
+            }
+
+            .bookkeeping-right-title {
+                font-size: 32px;
+                color: #e91e63;
+                margin-bottom: 30px;
+            }
+
+            .bookkeeping-right-text {
+                color: #333;
+                margin-bottom: 30px;
+                line-height: 1.6;
+            }
+
+            .bookkeeping-feature {
+                margin-bottom: 25px;
+            }
+
+            .bookkeeping-feature-title {
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .bookkeeping-feature-text {
+                color: #333;
+                line-height: 1.6;
+            }
+
+            /* Expect Section */
+            .expect {
+                position: relative;
+                display: flex;
+                height: 100vh;
+                background-color: white;
+            }
+
+            .expect-left {
+                width: 60vw;
+                height: 90vh;
+                position: relative;
+            }
+
+            .expect-left-top {
+                height: 10%;
+                width: 100%;
+                background-color: white;
+            }
+
+            .expect-left-bottom {
+                height: 90%;
+                width: 100%;
+                background-color: #fce4ec;
+            }
+
+            .expect-right {
+                width: 40vw;
+                height: 100vh;
+                position: relative;
+            }
+
+            .expect-right img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .expect-center {
+                position: absolute;
+                top: 50%;
+                left: 40%;
+                transform: translate(-50%, -50%);
+                width: 50%;
+                background-color: white;
+                padding: 40px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                z-index: 2;
+            }
+
+            .expect-title {
+                position: absolute;
+                top: 250px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 48px;
+                color: #e91e63;
+                background-color: transparent;
+                z-index: 3;
+                padding: 0 20px;
+            }
+
+            .expect-center-title {
+                font-size: 28px;
+                font-weight: bold;
+                color: #e91e63;
+                margin-bottom: 20px;
+            }
+
+            .expect-feature {
+                margin-bottom: 20px;
+            }
+
+            .expect-feature-title {
+                font-size: 20px;
+                color: #333;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .expect-feature-text {
+                color: #333;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="logo">BusinessLogo</div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Services</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Landing Section -->
+        <section class="landing">
+            <img src="/images/azade/azade1.png" alt="Office workspace" class="landing-bg overlay">
+            <div class="landing-content">
+                <div class="landing-line1">Our Services</div>
+                <div class="landing-line2">Effortless solutions designed for small businesses</div>
+                <div class="landing-line3">Streamlined solutions for your business</div>
+            </div>
+        </section>
+
+        <!-- Bookkeeping Section -->
+        <section class="bookkeeping">
+            <div class="bookkeeping-left">
+                <h2 class="bookkeeping-title">Bookkeeping</h2>
+                <img src="/images/azade/azade2.jpg" alt="Accounting documents" class="bookkeeping-img-large">
+                <img src="/images/azade/azade4.jpg" alt="Calculator" class="bookkeeping-img-small">
+            </div>
+            <div class="bookkeeping-right">
+                <h2 class="bookkeeping-right-title">Professional Services</h2>
+                <p class="bookkeeping-right-text">Our team of experts provides comprehensive bookkeeping services tailored to your business needs, ensuring accuracy and compliance with all financial regulations.</p>
+
+                <div class="bookkeeping-feature">
+                    <h3 class="bookkeeping-feature-title">Monthly Reports</h3>
+                    <p class="bookkeeping-feature-text">Receive detailed monthly financial reports that give you clear insights into your business performance and help you make informed decisions.</p>
+                </div>
+
+                <div class="bookkeeping-feature">
+                    <h3 class="bookkeeping-feature-title">Tax Preparation</h3>
+                    <p class="bookkeeping-feature-text">We handle all aspects of tax preparation, ensuring you meet all deadlines and take advantage of all eligible deductions.</p>
+                </div>
+
+                <div class="bookkeeping-feature">
+                    <h3 class="bookkeeping-feature-title">Payroll Services</h3>
+                    <p class="bookkeeping-feature-text">Our payroll services ensure your employees are paid accurately and on time, with all necessary tax withholdings and filings completed.</p>
+                </div>
+
+                <div class="bookkeeping-feature">
+                    <h3 class="bookkeeping-feature-title">Financial Planning</h3>
+                    <p class="bookkeeping-feature-text">We work with you to develop financial strategies that support your business goals and help you plan for future growth.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expect Section -->
+        <section class="expect">
+            <h2 class="expect-title">What to Expect</h2>
+            <div class="expect-left">
+                <div class="expect-left-top"></div>
+                <div class="expect-left-bottom"></div>
+            </div>
+            <div class="expect-right">
+                <img src="/images/azade/azade3.jpg" alt="Business meeting">
+            </div>
+            <div class="expect-center">
+                <h2 class="expect-center-title">Our Process</h2>
+
+                <div class="expect-feature">
+                    <h3 class="expect-feature-title">Initial Consultation</h3>
+                    <p class="expect-feature-text">We begin with a thorough consultation to understand your business needs, challenges, and goals. This helps us tailor our services specifically for you.</p>
+                </div>
+
+                <div class="expect-feature">
+                    <h3 class="expect-feature-title">Ongoing Support</h3>
+                    <p class="expect-feature-text">Our relationship doesn't end after implementation. We provide continuous support and regular check-ins to ensure your systems are working optimally for your business.</p>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Hide navbar on scroll
+            const navbar = document.querySelector('.navbar');
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                if (lastScrollY < window.scrollY) {
+                    navbar
+                        .classList
+                        .add('hidden');
+                } else {
+                    navbar
+                        .classList
+                        .remove('hidden');
+                }
+                lastScrollY = window.scrollY;
+            });
+        </script>
+    </body>
 </html>
